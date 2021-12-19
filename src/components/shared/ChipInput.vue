@@ -42,7 +42,7 @@
 <script>
 import { uid } from "quasar";
 import { ref,watch } from "vue";
-import { deepCopy, compare2Arrays,deleteElArFromeElAr } from "src/services/utils";
+import { deepCopy, compare2Arrays,deleteElArFromeElAr } from "src/services/shared/utils";
 export default {
   props: {title: String,
           content: Array,

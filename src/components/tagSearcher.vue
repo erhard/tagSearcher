@@ -28,7 +28,7 @@
  * (deswegen keine direkte Verarbeitung im Store)
  **/
 
-import { deleteElArFromeElAr } from "src/services/utils";
+import { deleteElArFromeElAr } from "src/services/shared/utils";
 export default {
   components: {
     chipInput: require("components/shared/ChipInput.vue").default,
