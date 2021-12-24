@@ -7,7 +7,9 @@
           v-on:deleteTag="deleteTag($event)"
           ref="tags"
           :options="displayTags"
-          :settings="{ deleteSelection: true }"
+          :settings="{
+             deleteSelection: true,
+             replaceSpace: true }"
         >
         </chip-input>
         <!-- receive Tags wird bei der Initialisierung von tag-cloud geschickt"

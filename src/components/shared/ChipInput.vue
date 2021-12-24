@@ -22,8 +22,13 @@
             lazy-rules
             @remove="deleteItem($event)"
             @filter="filterFn"
-            @new-value="createValue"
           >
+          <!-- createValue is not called
+          solving the change via watch 
+          new-value is a param of q-select 
+          @new-value="createValue"
+           -->
+
           <template v-slot:option="scope">
           <q-item v-close-popup
             v-bind="scope.itemProps"
@@ -58,12 +63,13 @@ export default {
        content = deepCopy(props.content);
    }
     let settings={}
+    if (typeof props.settings.replaceSpace === 'undefined') 
+    { settings["replaceSpace"] = false; } else
+    {settings["replaceSpace"]= props.settings.replaceSpace}
     if(props.settings){
         if (props.settings.deleteSelection){
-          console.log("set settings to true");
           settings["deleteSelection"]=true
         } else {
-          console.log("set settings to false");
           settings["deleteSelection"]=false
         } 
     }
@@ -71,12 +77,6 @@ export default {
     const options = ref(stringOptions);
      
     watch([()=>{return [...props.options]}, ()=> {return[...model.value]}],([newOpt, newContent],[prevOpt, prevContent])=>{
-      console.log("Change detected");
-      console.log(newOpt)
-      console.log(newContent);
-      console.log(prevOpt)
-      console.log(prevContent);
-      
       const difference = newContent.filter(
         x => !prevContent.includes(x)
       );
@@ -88,9 +88,8 @@ export default {
         if(settings.deleteSelection){
         console.log("Want to delete");
         stringOptions=deleteElArFromeElAr([newElement], stringOptions)
-        console.log('stringOptions ---->');
-        console.log(stringOptions);
-        console.log('End of ------- stringOptions');
+        createValue(newElement, settings)
+        
       }   
       
       }
@@ -99,7 +98,7 @@ export default {
          myChipInput._rawValue.updateInputValue("");
          myChipInput._rawValue.focus()
       }
-    })
+    }) //eof wathch
     
     
     const filterFn = (val, update) => {
@@ -116,17 +115,13 @@ export default {
         );
       });
     };
-    const createValue = (val, done) => {
-      val = val.replace(/\s/g, "_");
+    const createValue = (val, settings) => {
+      if(settings.replaceSpace){
+          val = val.replace(/\s/g, "_");
+      }
       // specific logic to eventually call done(...) -- or not
       context.emit("addTag", { tagName: val, id: "newtag" + uid() });
       //
-      console.log('settings --->>');
-      console.log(settings);
-      console.log('End of ------- settings');
-     
-      done(val);
-
     };
     const deleteItem = (event) => {
       context.emit("deleteTag", { value: event.value, mode: props.mode });
