@@ -50,9 +50,9 @@ import { ref,watch } from "vue";
 import { deepCopy, compare2Arrays,deleteElArFromeElAr } from "src/services/shared/utils";
 export default {
   props: {title: String,
-          content: Array,
-          options: Array,
-          settings: Object
+          content:  {type: Array,  default: []},
+          options:  {type: Array,  default: []},
+          settings: {type: Object, default: {}}
           }
           ,
   setup(props, context) {
@@ -85,11 +85,10 @@ export default {
       }
       if(difference.length>0){
         const newElement = difference[0]
+        createValue(newElement, settings)
         if(settings.deleteSelection){
         console.log("Want to delete");
         stringOptions=deleteElArFromeElAr([newElement], stringOptions)
-        createValue(newElement, settings)
-        
       }   
       
       }
@@ -98,7 +97,7 @@ export default {
          myChipInput._rawValue.updateInputValue("");
          myChipInput._rawValue.focus()
       }
-    }) //eof wathch
+    }) //eof watch
     
     
     const filterFn = (val, update) => {
