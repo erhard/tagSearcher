@@ -46,7 +46,7 @@
 </template>
 <script>
 import { uid } from "quasar";
-import { ref,watch } from "vue";
+import { ref,watch,onMounted } from "vue";
 import { deepCopy, compare2Arrays,deleteElArFromeElAr } from "src/services/shared/utils";
 export default {
   props: {title: String,
@@ -63,6 +63,7 @@ export default {
        content = deepCopy(props.content);
    }
     let settings={}
+
     if (typeof props.settings.replaceSpace === 'undefined') 
     { settings["replaceSpace"] = false; } else
     {settings["replaceSpace"]= props.settings.replaceSpace}
@@ -75,8 +76,19 @@ export default {
     }
     const model = ref(content);
     const options = ref(stringOptions);
-     
+    
+    onMounted(() => {
+         let workContent = [];
+         content.forEach(el=> {
+           workContent.push(el.tagName)
+         })
+         if (settings["deleteSelection"]){
+             stringOptions = deleteElArFromeElAr(workContent,stringOptions);
+         }
+       })    
+
     watch([()=>{return [...props.options]}, ()=> {return[...model.value]}],([newOpt, newContent],[prevOpt, prevContent])=>{
+      console.log("WatchIt");
       const difference = newContent.filter(
         x => !prevContent.includes(x)
       );
