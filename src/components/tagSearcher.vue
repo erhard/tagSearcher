@@ -8,9 +8,9 @@
           ref="tags"
           :options="displayTags"
           :settings="{
-             deleteSelection: true,
+             deleteSelection: deletion,
              replaceSpace: true }"
-        >
+          >
         </chip-input>
         <!-- receive Tags wird bei der Initialisierung von tag-cloud geschickt"
     und beinhaltet alle Tags - also das Suchergebnis
@@ -18,6 +18,7 @@
         <q-card-actions>
           <q-btn @click="search()" label="search" />
           <q-btn @click="change()" label="changeData" />
+          <q-checkbox v-model="deletion" label="Deletion of ListElements"/>
         </q-card-actions>
 
       </q-card>
@@ -56,7 +57,8 @@ export default {
       displayTags: ["car", "van", "bike","horse"], //from the computed tags
       changeData1 : ["USA", "China", "Taiwan", "Germany"],
       changeData2 : ["car", "van", "bike","horse"],
-      toggle: "1"
+      toggle: "1",
+      deletion: true
     };
   },
 

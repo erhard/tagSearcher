@@ -14,8 +14,14 @@ It shows as an example howto programm a search div with an chipInput which gets 
 displayTags are the tags which are to be display. They are reactive.
 
 ###### settings 
-delete deleteSelection: true deletes a selected item from the dispayed List, when it is choosen to the selection.
+delete deleteSelection: true deletes a selected item from the dispayed List, when it is choosen to the selection and adds it again when it is deleted from the resultlist.
 
+### events 
+##### addTag 
+fired when a tag is added to the result List with the tag as event
+
+#### deleteTag
+fired when a tag is deleted with the tag as event
 
 ## Install the dependencies
 ```bash

@@ -88,7 +88,10 @@ export default {
        })    
 
     watch([()=>{return [...props.options]}, ()=> {return[...model.value]}],([newOpt, newContent],[prevOpt, prevContent])=>{
-      console.log("WatchIt");
+    let deleteIt = false
+    if (props.settings && props.settings.deleteSelection){
+      deleteIt = props.settings.deleteSelection
+    }
       const difference = newContent.filter(
         x => !prevContent.includes(x)
       );
@@ -98,7 +101,7 @@ export default {
       if(difference.length>0){
         const newElement = difference[0]
         createValue(newElement, settings)
-        if(settings.deleteSelection){
+        if(deleteIt){
         console.log("Want to delete");
         stringOptions=deleteElArFromeElAr([newElement], stringOptions)
       }   
@@ -136,7 +139,9 @@ export default {
     };
     const deleteItem = (event) => {
       context.emit("deleteTag", { value: event.value, mode: props.mode });
-      stringOptions.push(event.value)
+      if(!stringOptions.includes(event.value)){
+         stringOptions.push(event.value)
+      }
     };
     return {
       model,
